@@ -8,7 +8,6 @@ import (
 	"text/tabwriter"
 	"text/template"
 
-	"github.com/docker/cli/cli/command/formatter"
 	"github.com/docker/docker/api/types"
 	units "github.com/docker/go-units"
 	"github.com/moncho/dry/docker"
@@ -109,7 +108,7 @@ func (r *DockerDiskUsageRenderer) tableHeader() string {
 func (r *DockerDiskUsageRenderer) formattedDiskUsage() string {
 	buf := bytes.NewBufferString("")
 	usage := r.diskUsage
-	context := formatter.DiskUsageContext{
+	/*context := formatter.DiskUsageContext{
 		Context: formatter.Context{
 			Output: buf,
 			Format: formatter.NewDiskUsageFormat(formatter.TableFormatKey),
@@ -120,7 +119,7 @@ func (r *DockerDiskUsageRenderer) formattedDiskUsage() string {
 		Volumes:    usage.Volumes,
 		Verbose:    false,
 	}
-	err := context.Write()
+	err := context.Write()*/
 	if err != nil {
 		return err.Error()
 	}
