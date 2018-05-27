@@ -10,7 +10,6 @@ import (
 	"github.com/docker/docker/api/types/swarm"
 	"github.com/moncho/dry/appui"
 	"github.com/moncho/dry/docker"
-	"github.com/moncho/dry/docker/formatter"
 	"github.com/moncho/dry/ui"
 	"github.com/moncho/dry/ui/termui"
 
@@ -321,7 +320,7 @@ func getServiceInfo(swarmClient docker.SwarmAPI) ([]swarm.Service, map[string]Se
 		return nil, nil, err
 	}
 
-	info := map[string]formatter.ServiceListInfo{}
+	info := map[string]ServiceListInfo{}
 	if len(services) > 0 {
 
 		tasks, err := swarmClient.ServiceTasks(serviceIDs(services)...)

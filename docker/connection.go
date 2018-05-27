@@ -2,9 +2,12 @@ package docker
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net"
 	"net/http"
+	"net/url"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/docker/docker/client"
@@ -62,7 +65,7 @@ func newHTTPClient(host string, config *tls.Config) (*http.Client, error) {
 		return nil, nil
 	}
 
-	proto, addr, _, err := client.ParseHost(host)
+	proto, addr, _, err := parseHost(host)
 	if err != nil {
 		return nil, err
 	}
@@ -130,4 +133,23 @@ func ConnectToDaemon(env *Env) (*DockerDaemon, error) {
 		return connect(client, env)
 	}
 	return nil, errors.Wrap(err, "Error creating client")
+}
+
+func parseHost(host string) (string, string, string, error) {
+	protoAddrParts := strings.SplitN(host, "://", 2)
+	if len(protoAddrParts) == 1 {
+		return "", "", "", fmt.Errorf("unable to parse docker host `%s`", host)
+	}
+
+	var basePath string
+	proto, addr := protoAddrParts[0], protoAddrParts[1]
+	if proto == "tcp" {
+		parsed, err := url.Parse("tcp://" + addr)
+		if err != nil {
+			return "", "", "", err
+		}
+		addr = parsed.Host
+		basePath = parsed.Path
+	}
+	return proto, addr, basePath, nil
 }

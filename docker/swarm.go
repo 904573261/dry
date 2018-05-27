@@ -313,4 +313,3 @@ func getAllStacksFilter() filters.Args {
 func NewNodeAvailability(availability string) swarm.NodeAvailability {
 	return swarm.NodeAvailability(availability)
 }
-}
