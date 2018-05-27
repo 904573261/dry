@@ -85,7 +85,7 @@ func (c *ContainerFormatter) Command() string {
 	c.addHeader(commandHeader)
 	command := c.c.Command
 	if c.trunc {
-		command = strutil.Resize(command, 30)
+		command = strutil.Resize(command, 30, false)
 	}
 	return command
 }
