@@ -5,7 +5,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/docker/distribution/reference"
 	"github.com/docker/docker/api/types/swarm"
 	"github.com/docker/docker/pkg/stringid"
 	"github.com/docker/go-units"
@@ -56,15 +55,17 @@ func (t *TaskStringer) Name() string {
 func (t *TaskStringer) Image() string {
 	image := t.task.Spec.ContainerSpec.Image
 	if t.trunc {
-		ref, err := reference.ParseNormalizedNamed(image)
+		//TODO trunc without using github.com/docker/distribution
+		/*ref, err := parseNormalizedNamed(image)
 		if err == nil {
 			// update image string for display, (strips any digest)
-			if nt, ok := ref.(reference.NamedTagged); ok {
-				if namedTagged, err := reference.WithTag(reference.TrimNamed(nt), nt.Tag()); err == nil {
+			if nt, ok := ref.(NamedTagged); ok {
+				if namedTagged, err := WithTag(reference.TrimNamed(nt), nt.Tag()); err == nil {
 					image = reference.FamiliarString(namedTagged)
 				}
 			}
-		}
+		}*/
+		return image
 	}
 	return image
 }
