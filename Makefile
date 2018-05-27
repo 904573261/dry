@@ -20,7 +20,7 @@ GOARCHS = amd64 386 arm
 print-%: ; @echo $*=$($*)
 
 run: ## Runs dry
-	go run ./main.go
+	vgo run ./main.go
 
 vendor: ## Runs dep ensure
 	dep ensure
@@ -33,16 +33,16 @@ vendor: ## Runs dep ensure
 	touch $@
 
 build: ## Builds dry
-	go build .
+	vgo build .
 
 install: ## Installs dry
-	go install $(PKG)
+	vgo install $(PKG)
 
 test: ## Run tests
-	go test $(shell go list ./... | grep -v /vendor/ | grep -v mock)
+	vgo test $(shell go list ./... | grep -v /vendor/ | grep -v mock)
 
 benchmark: ## Run benchmarks
-	go test -bench $(shell go list ./... | grep -v /vendor/ | grep -v mock) 
+	vgo test -bench $(shell go list ./... | grep -v /vendor/ | grep -v mock) 
 
 define buildpretty
 $(if $(and $(filter-out darwin_arm,$(1)_$(2)), $(filter-out windows_arm,$(1)_$(2)), $(filter-out windows_386,$(1)_$(2))), \
